@@ -30,7 +30,7 @@ public final class Synchronized<T> {
     /// You can do a calculation on the value to return some derived value.
     /// TODO: Should this be called `with()`?
     func use<R>(block: (T) throws -> R) rethrows -> R {
-        return try lock.performWithWriteLock {
+        return try lock.performWithReadLock {
             return try block(value)
         }
     }

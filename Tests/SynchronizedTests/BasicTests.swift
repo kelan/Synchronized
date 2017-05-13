@@ -5,7 +5,7 @@ import XCTest
 @testable import Synchronized
 
 
-class SynchronizedTests: XCTestCase {
+class BasicTests: XCTestCase {
 
     /// This just tests that the APIs work as expected
     func testBasicUsage() {

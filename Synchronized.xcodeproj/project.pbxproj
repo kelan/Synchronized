@@ -10,7 +10,8 @@
 		76BACED21D73EC3A00ED0AB2 /* Synchronized.h in Headers */ = {isa = PBXBuildFile; fileRef = 76BACED01D73EC3A00ED0AB2 /* Synchronized.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		76BACEDC1D73EC4A00ED0AB2 /* Synchronized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BACEDB1D73EC4A00ED0AB2 /* Synchronized.swift */; };
 		76BACEE61D749D5D00ED0AB2 /* Synchronized.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76BACECE1D73EC3A00ED0AB2 /* Synchronized.framework */; };
-		76CE81A41EC6A9D900FEF690 /* SynchronizedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CE81A31EC6A9D400FEF690 /* SynchronizedTests.swift */; };
+		76CE81A41EC6A9D900FEF690 /* BasicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CE81A31EC6A9D400FEF690 /* BasicTests.swift */; };
+		76CE81B91EC6C67500FEF690 /* PerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CE81B71EC6C67100FEF690 /* PerformanceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,7 +33,8 @@
 		76CE819D1EC6A72A00FEF690 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		76CE819E1EC6A81000FEF690 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		76CE81A21EC6A9D400FEF690 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Tests/SynchronizedTests/Info.plist; sourceTree = SOURCE_ROOT; };
-		76CE81A31EC6A9D400FEF690 /* SynchronizedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SynchronizedTests.swift; path = Tests/SynchronizedTests/SynchronizedTests.swift; sourceTree = SOURCE_ROOT; };
+		76CE81A31EC6A9D400FEF690 /* BasicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BasicTests.swift; path = Tests/SynchronizedTests/BasicTests.swift; sourceTree = SOURCE_ROOT; };
+		76CE81B71EC6C67100FEF690 /* PerformanceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PerformanceTests.swift; path = Tests/SynchronizedTests/PerformanceTests.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,7 +90,8 @@
 			isa = PBXGroup;
 			children = (
 				76CE81A21EC6A9D400FEF690 /* Info.plist */,
-				76CE81A31EC6A9D400FEF690 /* SynchronizedTests.swift */,
+				76CE81A31EC6A9D400FEF690 /* BasicTests.swift */,
+				76CE81B71EC6C67100FEF690 /* PerformanceTests.swift */,
 			);
 			path = SynchronizedTests;
 			sourceTree = "<group>";
@@ -213,7 +216,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				76CE81A41EC6A9D900FEF690 /* SynchronizedTests.swift in Sources */,
+				76CE81B91EC6C67500FEF690 /* PerformanceTests.swift in Sources */,
+				76CE81A41EC6A9D900FEF690 /* BasicTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
