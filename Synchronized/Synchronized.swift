@@ -1,10 +1,5 @@
-//
-//  Synchronized.swift
-//  Synchronized
-//
-//  Created by Kelan Champagne on 8/28/16.
 //  Copyright © 2016 Kelan Champagne. All rights reserved.
-//
+
 
 import Foundation
 /*
@@ -91,6 +86,21 @@ extension DispatchSemaphore: Lockable {
     }
 
 }
+
+/// Extend a DispatchQueue to be Lockable
+/// - note: You *MUST* use a serial queue for this.  Don't use a global/concurrent queue!
+extension DispatchQueue: Lockable {
+
+    func performWithReadLock<T>(_ block: () throws -> T) rethrows -> T {
+        return try sync(execute: block)
+    }
+
+    func performWithWriteLock<T>(_ block: () throws -> T) rethrows -> T {
+        return try sync(execute: block)
+    }
+    
+}
+
 
 
 // MARK: RWLock

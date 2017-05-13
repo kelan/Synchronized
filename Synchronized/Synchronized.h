@@ -1,10 +1,4 @@
-//
-//  Synchronized.h
-//  Synchronized
-//
-//  Created by Kelan Champagne on 8/28/16.
 //  Copyright © 2016 Kelan Champagne. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 

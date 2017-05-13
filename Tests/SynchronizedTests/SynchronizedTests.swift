@@ -1,10 +1,5 @@
-//
-//  SynchronizedTests.swift
-//  SynchronizedTests
-//
-//  Created by Kelan Champagne on 8/29/16.
 //  Copyright © 2016 Kelan Champagne. All rights reserved.
-//
+
 
 import XCTest
 @testable import Synchronized

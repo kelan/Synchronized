@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		76BACED21D73EC3A00ED0AB2 /* Synchronized.h in Headers */ = {isa = PBXBuildFile; fileRef = 76BACED01D73EC3A00ED0AB2 /* Synchronized.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		76BACEDC1D73EC4A00ED0AB2 /* Synchronized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BACEDB1D73EC4A00ED0AB2 /* Synchronized.swift */; };
-		76BACEE41D749D5D00ED0AB2 /* SynchronizedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BACEE31D749D5D00ED0AB2 /* SynchronizedTests.swift */; };
 		76BACEE61D749D5D00ED0AB2 /* Synchronized.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76BACECE1D73EC3A00ED0AB2 /* Synchronized.framework */; };
+		76CE81A41EC6A9D900FEF690 /* SynchronizedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CE81A31EC6A9D400FEF690 /* SynchronizedTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,8 +29,10 @@
 		76BACED11D73EC3A00ED0AB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		76BACEDB1D73EC4A00ED0AB2 /* Synchronized.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Synchronized.swift; sourceTree = "<group>"; };
 		76BACEE11D749D5D00ED0AB2 /* SynchronizedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SynchronizedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		76BACEE31D749D5D00ED0AB2 /* SynchronizedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizedTests.swift; sourceTree = "<group>"; };
-		76BACEE51D749D5D00ED0AB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		76CE819D1EC6A72A00FEF690 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		76CE819E1EC6A81000FEF690 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		76CE81A21EC6A9D400FEF690 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Tests/SynchronizedTests/Info.plist; sourceTree = SOURCE_ROOT; };
+		76CE81A31EC6A9D400FEF690 /* SynchronizedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SynchronizedTests.swift; path = Tests/SynchronizedTests/SynchronizedTests.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,8 @@
 		76BACE951D73EBD500ED0AB2 = {
 			isa = PBXGroup;
 			children = (
+				76CE819D1EC6A72A00FEF690 /* README.md */,
+				76CE819E1EC6A81000FEF690 /* Package.swift */,
 				76BACECF1D73EC3A00ED0AB2 /* Synchronized */,
 				76BACEE21D749D5D00ED0AB2 /* SynchronizedTests */,
 				76BACE9F1D73EBD500ED0AB2 /* Products */,
@@ -83,8 +87,8 @@
 		76BACEE21D749D5D00ED0AB2 /* SynchronizedTests */ = {
 			isa = PBXGroup;
 			children = (
-				76BACEE31D749D5D00ED0AB2 /* SynchronizedTests.swift */,
-				76BACEE51D749D5D00ED0AB2 /* Info.plist */,
+				76CE81A21EC6A9D400FEF690 /* Info.plist */,
+				76CE81A31EC6A9D400FEF690 /* SynchronizedTests.swift */,
 			);
 			path = SynchronizedTests;
 			sourceTree = "<group>";
@@ -209,7 +213,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				76BACEE41D749D5D00ED0AB2 /* SynchronizedTests.swift in Sources */,
+				76CE81A41EC6A9D900FEF690 /* SynchronizedTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,7 +371,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = SynchronizedTests/Info.plist;
+				INFOPLIST_FILE = Tests/SynchronizedTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.kelan.SynchronizedTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -379,7 +383,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = SynchronizedTests/Info.plist;
+				INFOPLIST_FILE = Tests/SynchronizedTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.kelan.SynchronizedTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -406,6 +410,7 @@
 				76BACED91D73EC3A00ED0AB2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		76BACEE91D749D5D00ED0AB2 /* Build configuration list for PBXNativeTarget "SynchronizedTests" */ = {
 			isa = XCConfigurationList;
@@ -414,6 +419,7 @@
 				76BACEEB1D749D5D00ED0AB2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
