@@ -2,17 +2,6 @@
 
 
 import Foundation
-/*
-
- 2016-08-23
-
- This version lets you specify which lock type you want to use.
-
- Current options are a DispatchSemaphore, and a pthread_rwlock.
-
- */
-
-import Foundation
 
 
 // MARK: - Synchronized
@@ -33,7 +22,7 @@ public final class Synchronized<T> {
     /// closure parameter.
     /// - note: The lock has to be held during the whole execution of the closure.
     func update(block: (inout T) throws -> Void) rethrows {
-        try lock.performWithReadLock {
+        try lock.performWithWriteLock {
             try block(&value)
         }
     }
@@ -64,13 +53,15 @@ public final class Synchronized<T> {
 
 // MARK: - Lockable
 
-/// TODO
+/// This lets you provide different locking implementations for the
+/// `Synchronized` resource.
 protocol Lockable {
     func performWithReadLock<T>(_ block: () throws -> T) rethrows -> T
     func performWithWriteLock<T>(_ block: () throws -> T) rethrows -> T
 }
 
-/// Extend a DispatchSemaphore to be Lockable
+
+/// Make a `DispatchSemaphore` be Lockable
 extension DispatchSemaphore: Lockable {
 
     func performWithReadLock<T>(_ block: () throws -> T) rethrows -> T {
@@ -87,7 +78,8 @@ extension DispatchSemaphore: Lockable {
 
 }
 
-/// Extend a DispatchQueue to be Lockable
+
+/// Make a `DispatchQueue` be Lockable
 /// - note: You *MUST* use a serial queue for this.  Don't use a global/concurrent queue!
 extension DispatchQueue: Lockable {
 
@@ -105,6 +97,9 @@ extension DispatchQueue: Lockable {
 
 // MARK: RWLock
 
+/// Use a `pthread_rwlock` to allow multiple concurrent reads to
+/// the `Synchronized` resource, but only allow a single writer.
+///
 /// Based on https://github.com/PerfectlySoft/Perfect-Thread/blob/master/Sources/Threading.swift#L151
 public final class RWLock: Lockable {
 
