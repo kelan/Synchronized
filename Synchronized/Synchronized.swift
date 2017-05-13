@@ -12,24 +12,28 @@ public final class Synchronized<T> {
     private var lock: Lockable
 
     /// - parameter lock: Lets you choose the type of lock you want.
-    init(_ value: T, lock: Lockable = DispatchSemaphore(value: 1)) {
+    public init(_ value: T, lock: Lockable = DispatchSemaphore(value: 1)) {
         self.value  = value
         self.lock = lock
     }
 
-    /// This method lets you pass a closure that takes the old value as an `inout` argument, so
-    /// you can use that when determining the new value (which you set by just mutating the
-    /// closure parameter.
-    /// - note: The lock has to be held during the whole execution of the closure.
-    func update(block: (inout T) throws -> Void) rethrows {
+    /// Get read-write access to the synchronized resource
+    ///
+    /// Pass a closure that takes the old value as an `inout` argument, so
+    /// you can use that when determining the new value (which you set by just
+    /// mutating that closure parameter.
+    /// - note: The write lock is held during the whole execution of the closure.
+    public func update(block: (inout T) throws -> Void) rethrows {
         try lock.performWithWriteLock {
             try block(&value)
         }
     }
 
+    /// Get read-only access to the synchronized resource
+    ///
     /// You can do a calculation on the value to return some derived value.
-    /// TODO: Should this be called `with()`?
-    func use<R>(block: (T) throws -> R) rethrows -> R {
+    /// REVIEW: Should this be called `with()`?
+    public func use<R>(block: (T) throws -> R) rethrows -> R {
         return try lock.performWithReadLock {
             return try block(value)
         }
@@ -42,7 +46,7 @@ public final class Synchronized<T> {
     /// Pehaps a different "flavor" of AtomicBox (with different methods) would be useful for a struct?
     /// TODO: rename to `.copy()` or `.read()`?
     /// TODO: Is there such thing as a "safeGet"?
-    func unsafeGet() -> T {
+    public func unsafeGet() -> T {
         return lock.performWithReadLock {
             return value
         }
@@ -55,7 +59,7 @@ public final class Synchronized<T> {
 
 /// This lets you provide different locking implementations for the
 /// `Synchronized` resource.
-protocol Lockable {
+public protocol Lockable {
     func performWithReadLock<T>(_ block: () throws -> T) rethrows -> T
     func performWithWriteLock<T>(_ block: () throws -> T) rethrows -> T
 }
@@ -64,13 +68,13 @@ protocol Lockable {
 /// Make a `DispatchSemaphore` be Lockable
 extension DispatchSemaphore: Lockable {
 
-    func performWithReadLock<T>(_ block: () throws -> T) rethrows -> T {
+    public func performWithReadLock<T>(_ block: () throws -> T) rethrows -> T {
         wait()
         defer { signal() }
         return try block()
     }
 
-    func performWithWriteLock<T>(_ block: () throws -> T) rethrows -> T {
+    public func performWithWriteLock<T>(_ block: () throws -> T) rethrows -> T {
         wait()
         defer { signal() }
         return try block()
@@ -83,11 +87,11 @@ extension DispatchSemaphore: Lockable {
 /// - note: You *MUST* use a serial queue for this.  Don't use a global/concurrent queue!
 extension DispatchQueue: Lockable {
 
-    func performWithReadLock<T>(_ block: () throws -> T) rethrows -> T {
+    public func performWithReadLock<T>(_ block: () throws -> T) rethrows -> T {
         return try sync(execute: block)
     }
 
-    func performWithWriteLock<T>(_ block: () throws -> T) rethrows -> T {
+    public func performWithWriteLock<T>(_ block: () throws -> T) rethrows -> T {
         return try sync(execute: block)
     }
     
