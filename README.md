@@ -1,8 +1,8 @@
 
 # Synchronized<T>
 
-A Swift micro-framework to help enforce thread-safe usage of stored properties
-in your Swift classes.
+A Swift genric wrapper type to help enforce thread-safe usage of stored
+properties.
 
 This is an idea that started with a [post on my
 blog](http://kelan.io/2016/synchronized-wrapper-in-swift/), and I followed up
@@ -29,6 +29,13 @@ class C {
 }
 ```
 
+### Available Locking Strategies
+
+* `DispatchSemaphore`
+* `DispatchQueue`
+* `NSLock`
+* `pthread_rwlock_t`
+
 
 ## Installation
 
@@ -47,3 +54,25 @@ hope Xcode gets better support for that soon!
   access/mutate it.  But this at least makes it harder to do that.
 * This hasn't been thoroughly tested yet, or used in serious production code,
   but I do think the idea is sound, so more testing and usage would do it good.
+
+
+## Further Ideas (TODO)
+
+* Add more locking strategies
+    * `OSSpinLock`
+    * [`os_unfair_lock`](https://developer.apple.com/documentation/os/os_unfair_lock)
+    * `pthread_mutex_t` directly?
+* Refine the naming of the `update()` and `use()` methods`
+    * Some ideas are:
+        * for the `use()` method: `read()`, `with()`
+        * for the `update()` method: `write()`, `mutate()`
+* Further testing, especially performance testing of the various locking strategies
+
+## Similar Projects
+
+I didn't know about this when I wrote this initially, but I noticed something
+similar to this, in [PMHTTP](https://github.com/postmates/PMHTTP), named
+[QueueConfined](https://github.com/postmates/PMHTTP/blob/master/Sources/QueueConfined.swift).
+But that one doesn't have the ability to change the locking mechanism (it always
+uses a serial queue).
+
