@@ -98,7 +98,6 @@ extension DispatchQueue: Lockable {
 }
 
 
-
 // MARK: RWLock
 
 /// Use a `pthread_rwlock` to allow multiple concurrent reads to
@@ -153,3 +152,22 @@ public final class RWLock: Lockable {
 
 }
 
+
+// MARK: NSLock
+
+/// Make a `NSLock` be Lockable
+extension NSLock: Lockable {
+
+    public func performWithReadLock<T>(_ block: () throws -> T) rethrows -> T {
+        lock()
+        defer { unlock() }
+        return try block()
+    }
+
+    public func performWithWriteLock<T>(_ block: () throws -> T) rethrows -> T {
+        lock()
+        defer { unlock() }
+        return try block()
+    }
+
+}

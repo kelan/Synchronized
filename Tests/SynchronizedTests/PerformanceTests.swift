@@ -8,25 +8,31 @@ class PerformanceTests: XCTestCase {
 
     func testUsingSemaphore() {
         measure {
-            performTest(using: DispatchSemaphore(value: 1))
+            runPerformanceTest(using: DispatchSemaphore(value: 1))
         }
     }
 
     func testUsingQueue() {
         measure {
-            performTest(using: DispatchQueue(label: "lock"))
+            runPerformanceTest(using: DispatchQueue(label: "lock"))
         }
     }
 
     func testUsingRWLock() {
         measure {
-            performTest(using: RWLock()!)
+            runPerformanceTest(using: RWLock()!)
+        }
+    }
+
+    func testUsingNSLock() {
+        measure {
+            runPerformanceTest(using: NSLock())
         }
     }
 
 }
 
-func performTest(using lockingStrategy: Lockable) {
+func runPerformanceTest(using lockingStrategy: Lockable) {
     let criticalCount = Synchronized(0, lock: lockingStrategy)
     let numIterations = 100000
     let group = DispatchGroup()  // used to wait for all the async blocks to finish

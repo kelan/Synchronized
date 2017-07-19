@@ -14,32 +14,7 @@ class BasicTests: XCTestCase {
         XCTAssertEqual(uppercasedString, "TEST")
     }
 
-    /// This tests that Synchronized protects against concurrnet mutation, by dispatching
-    /// a bunch of async blocks that each do:
-    ///     read,
-    ///     sleep (to exacerbate the race)
-    ///     increment and write
-    /// and then making sure the count ends up being incremented the correct number of times.
-    func testConcurrentMutation() {
-        let criticalCount = Synchronized(0)
-        let numIterations = 100
-        let group = DispatchGroup()  // used to wait for all the async blocks to finish
-        for _ in 0..<numIterations {
-            group.enter()
-            DispatchQueue.global().async {
-                criticalCount.update { count in
-                    let original = count
-                    usleep(10)
-                    count = original + 1
-                }
-                group.leave()
-            }
-        }
-        group.wait()
-        XCTAssertEqual(criticalCount.unsafeGet(), numIterations, "Should have gotten all counts")
-    }
-
-    /// This does the same pattern as `testConcurrentMutation()`, but doesn't
+    /// This does the same pattern as `runBasicTests(using:)`, but doesn't
     /// use a Synchronized wrapper, so it loses counts.
     func testConcurrentMutationWithoutSyncrhonizedHasProblems() {
         var count = 0
@@ -58,35 +33,37 @@ class BasicTests: XCTestCase {
         XCTAssertLessThan(count, numIterations, "Should have lost counts")
     }
 
+    /// Run a basic test using a `DispatchSemaphore` as the lock
+    func testConcurrentMutation() {
+        runBasicTests(using: DispatchSemaphore(value: 1))
+    }
 
-    /// Same as `testConcurrentMutation(), but uses a DispatchQueue as the locking strategy,
-    /// instead of the default DispatchSemaphore.
+    /// Run a basic test using a `DispatchQueue` as the lock
     func testQueueLockingStrategy() {
-        let serialQueue = DispatchQueue(label: "lock")
-        let criticalCount = Synchronized(0, lock: serialQueue)
-        let numIterations = 100
-        let group = DispatchGroup()  // used to wait for all the async blocks to finish
-        for _ in 0..<numIterations {
-            group.enter()
-            DispatchQueue.global().async {
-                criticalCount.update { count in
-                    let original = count
-                    usleep(10)
-                    count = original + 1
-                }
-                group.leave()
-            }
-        }
-        group.wait()
-        XCTAssertEqual(criticalCount.unsafeGet(), numIterations, "Should have gotten all counts")
+        runBasicTests(using: DispatchQueue(label: "lock"))
+    }
+
+    /// Run a basic test using a `RWLock` as the lock.
+    func testRWLockingStrategy() {
+        runBasicTests(using: RWLock()!)
+    }
+
+    /// Run a basic test using a `NSLock` as the lock.
+    func testNSLocLockingStrategy() {
+        runBasicTests(using: NSLock())
     }
 
 
-    /// Same as `testConcurrentMutation(), but uses a RWLock as the locking strategy,
-    /// instead of the default DispatchSemaphore.
-    func testRWLockingStrategy() {
-        let rwLock = RWLock()!
-        let criticalCount = Synchronized(0, lock: rwLock)
+    // MARK: Helpers
+
+    /// This tests that Synchronized protects against concurrnet mutation, by dispatching
+    /// a bunch of async blocks that each do:
+    ///     read,
+    ///     sleep (to exacerbate the race)
+    ///     increment and write
+    /// and then making sure the count ends up being incremented the correct number of times.
+    func runBasicTests(using lockingStrategy: Lockable) {
+        let criticalCount = Synchronized(0, lock: lockingStrategy)
         let numIterations = 100
         let group = DispatchGroup()  // used to wait for all the async blocks to finish
         for _ in 0..<numIterations {
