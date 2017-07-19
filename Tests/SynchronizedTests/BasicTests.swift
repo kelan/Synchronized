@@ -71,6 +71,7 @@ class BasicTests: XCTestCase {
             DispatchQueue.global().async {
                 criticalCount.update { count in
                     let original = count
+                    // sleep a bit to exacerbate the races
                     usleep(10)
                     count = original + 1
                 }
