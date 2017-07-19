@@ -22,7 +22,7 @@ class C {
     /// This might be called on any thread, and we want to increment the
     /// `criticalCount`, without introducing a race condition.
     func incrementOnUnknownThread() {
-        criticalString.update { count in
+        criticalCount.update { count in
             count += 1
         }
     }
