@@ -171,3 +171,27 @@ extension NSLock: Lockable {
     }
 
 }
+
+
+// MARK: OSSpinLock
+
+/// Use an `OSSpinLock` as the Locking strategy
+/// - note: Because `OSSpinLock()` isn't a class, we can't simple make an
+///     extension on it here
+class OSSpinLockable: Lockable {
+
+    private var spinlock = OSSpinLock()
+
+    public func performWithReadLock<T>(_ block: () throws -> T) rethrows -> T {
+        OSSpinLockLock(&spinlock)
+        defer { OSSpinLockUnlock(&spinlock) }
+        return try block()
+    }
+
+    public func performWithWriteLock<T>(_ block: () throws -> T) rethrows -> T {
+        OSSpinLockLock(&spinlock)
+        defer { OSSpinLockUnlock(&spinlock) }
+        return try block()
+    }
+    
+}

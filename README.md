@@ -59,7 +59,6 @@ hope Xcode gets better support for that soon!
 ## Further Ideas (TODO)
 
 * Add more locking strategies
-    * `OSSpinLock`
     * [`os_unfair_lock`](https://developer.apple.com/documentation/os/os_unfair_lock)
     * `pthread_mutex_t` directly?
 * Refine the naming of the `update()` and `use()` methods`

@@ -52,6 +52,12 @@ class PerformanceTests: XCTestCase {
         }
     }
 
+    func testUsingOSSpinLockable() {
+        measure {
+            runPerformanceTest(using: OSSpinLockable())
+        }
+    }
+
 }
 
 func runPerformanceTest(using lockingStrategy: Lockable) {

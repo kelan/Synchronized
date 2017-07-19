@@ -34,23 +34,28 @@ class BasicTests: XCTestCase {
     }
 
     /// Run a basic test using a `DispatchSemaphore` as the lock
-    func testConcurrentMutation() {
+    func testDispatchSemaphore() {
         runBasicTests(using: DispatchSemaphore(value: 1))
     }
 
     /// Run a basic test using a `DispatchQueue` as the lock
-    func testQueueLockingStrategy() {
+    func testDispatchQueue() {
         runBasicTests(using: DispatchQueue(label: "lock"))
     }
 
     /// Run a basic test using a `RWLock` as the lock.
-    func testRWLockingStrategy() {
+    func testRWLock() {
         runBasicTests(using: RWLock()!)
     }
 
     /// Run a basic test using a `NSLock` as the lock.
-    func testNSLocLockingStrategy() {
+    func testNSLock() {
         runBasicTests(using: NSLock())
+    }
+
+    /// Run a basic test using a `NSLock` as the lock.
+    func testOSSpinLock() {
+        runBasicTests(using: OSSpinLockable())
     }
 
 
@@ -58,9 +63,9 @@ class BasicTests: XCTestCase {
 
     /// This tests that Synchronized protects against concurrnet mutation, by dispatching
     /// a bunch of async blocks that each do:
-    ///     read,
-    ///     sleep (to exacerbate the race)
-    ///     increment and write
+    ///     * read
+    ///     * sleep (to exacerbate the race)
+    ///     * increment the count (aka write)
     /// and then making sure the count ends up being incremented the correct number of times.
     func runBasicTests(using lockingStrategy: Lockable) {
         let criticalCount = Synchronized(0, lock: lockingStrategy)
@@ -71,7 +76,6 @@ class BasicTests: XCTestCase {
             DispatchQueue.global().async {
                 criticalCount.update { count in
                     let original = count
-                    // sleep a bit to exacerbate the races
                     usleep(10)
                     count = original + 1
                 }
