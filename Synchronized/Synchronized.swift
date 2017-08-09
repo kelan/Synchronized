@@ -98,6 +98,22 @@ extension DispatchQueue: Lockable {
 }
 
 
+public final class RWQueue: Lockable {
+
+    /// - note: Use a high qos,
+    private let queue = DispatchQueue(label: "RWQueue", qos: .userInitiated, attributes: .concurrent)
+
+    public func performWithReadLock<T>(_ block: () throws -> T) rethrows -> T {
+        return try queue.sync(execute: block)
+    }
+
+    public func performWithWriteLock<T>(_ block: () throws -> T) rethrows -> T {
+        return try queue.sync(flags: .barrier, execute: block)
+    }
+
+}
+
+
 // MARK: RWLock
 
 /// Use a `pthread_rwlock` to allow multiple concurrent reads to

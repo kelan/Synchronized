@@ -40,6 +40,12 @@ class PerformanceTests: XCTestCase {
         }
     }
 
+    func testUsingRWQueue() {
+        measure {
+            runPerformanceTest(using: RWQueue())
+        }
+    }
+
     func testUsingRWLock() {
         measure {
             runPerformanceTest(using: RWLock()!)

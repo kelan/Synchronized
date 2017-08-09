@@ -43,6 +43,10 @@ class BasicTests: XCTestCase {
         runBasicTests(using: DispatchQueue(label: "lock"))
     }
 
+    func testRWQueue() {
+        runBasicTests(using: RWQueue())
+    }
+
     /// Run a basic test using a `RWLock` as the lock.
     func testRWLock() {
         runBasicTests(using: RWLock()!)
